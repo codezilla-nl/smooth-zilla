@@ -1,0 +1,14 @@
+body {
+    background-color: yellow;
+}
+
+#container {
+    margin: 20px;
+}
+
+.box {
+    background-color: lime;
+    margin: 20px 0;
+    padding: 20px;
+
+}

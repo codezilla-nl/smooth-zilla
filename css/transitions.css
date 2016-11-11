@@ -1,0 +1,15 @@
+.fade {
+    opacity: 0;
+}
+
+.fade.out {
+    opacity: 0;
+    -webkit-transition: opacity 400ms, -webkit-transform 400ms;
+    transition: opacity 400ms, transform 400ms;
+}
+
+.fade.in {
+    opacity: 1;
+    -webkit-transition: opacity 400ms, -webkit-transform 400ms;
+    transition: opacity 400ms, transform 400ms;
+}
