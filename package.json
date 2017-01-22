@@ -1,0 +1,24 @@
+{
+  "name": "smooth-zilla",
+  "version": "1.0.0",
+  "description": "Smooth page transitions",
+  "main": "src/smooth-zilla.js",
+  "scripts": {
+    "build": "webpack",
+    "dev": "concurrently --kill-others 'npm run build' 'node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js'"
+  },
+  "repository": "git@github.com:codezilla-nl/smooth-zilla.git",
+  "author": "Jelle Kralt <jellekralt@codezilla.nl>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.22.0",
+    "concurrently": "^3.1.0",
+    "uglify-loader": "^1.4.0",
+    "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.16.2"
+  }
+}
