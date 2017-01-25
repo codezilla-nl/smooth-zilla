@@ -1,4 +1,5 @@
 
 window.smoothZilla = new SmoothZilla({
-    worker: true
+    worker: false,
+    debug: true
 });

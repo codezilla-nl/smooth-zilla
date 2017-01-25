@@ -1,19 +1,29 @@
 'use strict'
 
 import { isExternal, whichTransitionEvent } from './utils'
+import MyWorker from 'worker-loader!./Worker.js'
 
 const DEFAULTS = {
-    worker: false
+    worker: true
 }
 
 class SmoothZilla {
     constructor(options) {        
         this.options = Object.assign({}, DEFAULTS, options);
-
+             
+        if (this.options.debug) {
+            this.debug = true;
+        }
+   
         this.links = this.getLinks();
         this.pageCache = {};
 
         this.setClickHandlers(this.links);
+     
+        if (this.options.worker) {
+            this.setWorker(this.links);
+        }
+   
     }
 
     getLinks() {
@@ -34,13 +44,28 @@ class SmoothZilla {
 
     setClickHandlers(links) {
         links.forEach((link) => {
-e.log('link', link);
-            
             link.element.addEventListener('click', (event) => {
                 this.navigateTo(link, true);
                 event.preventDefault();
             });
         });
+    }
+
+    setWorker(links) {
+
+        if (this.debug) {
+            console.log(`Loading '${links.map((link) => link.href).toString()}' via workers`);
+        }
+
+        this.worker = new MyWorker();
+        this.worker.postMessage(links.map((link) => link.href));
+        this.worker.onmessage = (e) => {
+            if (this.debug) {
+                console.log(`Added '${e.data.url}' to the page cache`);
+            }
+
+            this.pageCache[e.data.url] = e.data.html;
+        };
     }
 
     navigateTo(link, pushState) {
@@ -56,6 +81,10 @@ e.log('link', link);
 
     loadPage(href, cb) {
         var xmlhttp = new XMLHttpRequest();
+
+        if (this.debug) {
+            console.log(`Loading '${href}'`);
+        }
 
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == XMLHttpRequest.DONE) {
